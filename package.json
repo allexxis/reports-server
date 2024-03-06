@@ -1,14 +1,24 @@
 {
   "name": "reports-server",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "build": "bun build  src/index.ts  --target node --external mssql  --outdir build --watch",
+    "run": "node --watch build/index.js",
+    "dev": "npm-run-all2 --parallel build run"
   },
   "dependencies": {
-    "elysia": "latest"
+    "cron": "^3.1.6",
+    "elysia": "latest",
+    "express": "^4.18.3",
+    "mssql": "^10.0.2",
+    "npm-run-all2": "^6.1.2",
+    "redis": "^4.6.13"
   },
   "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/mssql": "^9.1.5",
     "bun-types": "latest"
   },
   "module": "src/index.js"

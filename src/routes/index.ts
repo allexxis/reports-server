@@ -1,12 +1,32 @@
-import { Elysia } from 'elysia';
 import packageJson from '@src/../package.json';
+import { executeProcedure } from '@lib/seven';
+import express from 'express';
+import config from '@src/config';
 
-const routes = (app: Elysia) => {
-   app.get('/health', () => {
-      return {
-         status: 'ok',
-         version: packageJson.version,
-      };
+const router = express.Router();
+
+router.get('/health', (_req, res) => {
+   res.json({
+      name: packageJson.name,
+      version: packageJson.version,
    });
-};
-export default routes as any;
+});
+router.get('/test', async (_req, res) => {
+   console.time('executeProcedure');
+   const response = await executeProcedure(
+      config.DEV_CONNECTION_STRING,
+      'dbo.GetSimpleTable',
+      undefined,
+      'HG_SevenFront'
+   ).catch((err) => {
+      res.json({
+         error: err.message,
+      });
+   });
+   console.timeEnd('executeProcedure');
+
+   res.json({
+      response,
+   });
+});
+export default router;

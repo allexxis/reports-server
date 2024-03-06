@@ -1,11 +1,9 @@
-import { Elysia } from 'elysia';
+import express from 'express';
 import config from '@config/index';
 import routes from './routes';
 
-const app = new Elysia();
+const app = express();
 app.use(routes);
-app.listen(config.PORT);
-
-console.log(
-   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+app.listen(config.PORT, () => {
+   console.log(`🦊 Express is running at localhost:${config.PORT}`);
+});
