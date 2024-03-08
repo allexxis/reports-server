@@ -2,6 +2,7 @@ import packageJson from '@src/../package.json';
 import { executeProcedure } from '@lib/seven';
 import express from 'express';
 import config from '@src/config';
+import explotacion from '@src/lib/seven/procedures/explotacion';
 
 const router = express.Router();
 
@@ -29,4 +30,19 @@ router.get('/test', async (_req, res) => {
       response,
    });
 });
+router.get('/explotacion', async (_req, res) => {
+   const response = await explotacion({
+      from: '2024-01-01 00:00:00.000',
+      to: '2024-03-05 00:00:00.00',
+   });
+   if (response.error) {
+      return res.json({
+         error: response.error,
+      });
+   }
+   res.json({
+      success: true,
+   });
+});
+
 export default router;

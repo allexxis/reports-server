@@ -42,17 +42,18 @@ async function executeProcedure(
             request.input(param.name, param.type, param.value);
          }
       }
-
+      pool.addListener('error', (err) => {
+         console.error(err);
+      });
       // Execute the query
       const result = await request.execute(procedure);
-
       // Close the connection pool
       await pool.close();
 
       // Return the query result
-      return result.recordset;
+      return result;
    } catch (err: any) {
-      throw new Error(`Error executing procedure: ${err.message}`);
+      throw err;
    }
 }
 export { executeQuery, executeProcedure };

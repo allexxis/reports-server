@@ -1,6 +1,6 @@
 #build
 build
-
+*ignore.json
 # Logs
 
 logs
