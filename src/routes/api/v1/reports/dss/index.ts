@@ -16,7 +16,7 @@ router.get('/explotacion', async (_req, res) => {
       });
    }
    res.json({
-      result: response.data?.results[0],
+      data: response.data?.results[0],
       success: true,
    });
 });
