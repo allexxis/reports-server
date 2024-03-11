@@ -27,7 +27,7 @@ const explotacion = async (
       {
          name: 'id_mone',
          type: sql.Int,
-         value: 0,
+         value: options.currencyId,
       },
       {
          name: 'tasa',

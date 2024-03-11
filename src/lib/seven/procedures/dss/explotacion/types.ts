@@ -2,6 +2,7 @@ export interface ExplotacionOptions {
    from: string;
    to: string;
    type: ReportTypes;
+   currencyId: number;
 }
 export interface ExplotacionResult {
    data?: {
