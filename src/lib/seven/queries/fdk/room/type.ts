@@ -27,7 +27,7 @@ export interface RoomTypeResult {
    rooms?: RoomType[];
 }
 
-const prices = async (
+const rooms = async (
    options: RoomTypeOptions
 ): Promise<RoomTypeResult & LibError> => {
    const query = `USE HG_SevenFront; SELECT * FROM HOTETHAB ORDER BY tipo_hab;`;
@@ -57,4 +57,4 @@ const prices = async (
       rooms: rooms,
    };
 };
-export default prices;
+export default rooms;

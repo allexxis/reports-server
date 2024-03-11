@@ -5,6 +5,7 @@ import markets from '@src/lib/seven/queries/fdk/markets';
 import agencies from '@src/lib/seven/queries/fdk/agencies';
 import prices from '@src/lib/seven/queries/fdk/prices';
 import roomType from '@src/lib/seven/queries/fdk/room/type';
+import roomUsage from '@src/lib/seven/queries/fdk/room/usage';
 const router = express.Router();
 
 router.get('/currencies', async (_req, res) => {
@@ -65,6 +66,20 @@ router.get('/prices', async (_req, res) => {
 });
 router.get('/rooms/type', async (_req, res) => {
    const response = await roomType({
+      connectionString: config.db.DEV_CONNECTION_STRING,
+   });
+   if (response.error) {
+      return res.json({
+         error: response.error,
+      });
+   }
+   res.json({
+      data: response.rooms,
+      success: true,
+   });
+});
+router.get('/rooms/usage', async (_req, res) => {
+   const response = await roomUsage({
       connectionString: config.db.DEV_CONNECTION_STRING,
    });
    if (response.error) {
