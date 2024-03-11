@@ -1,18 +1,9 @@
-import { IProcedureParams, executeProcedure } from '../..';
+import { IProcedureParams, executeProcedure } from '@lib/seven/index';
 import sql from 'mssql';
 import config from '@src/config';
 import { LibError } from '@src/types';
-interface ExplotacionOptions {
-   from: string;
-   to: string;
-}
-interface ExplotacionResult {
-   data?: {
-      results: any[];
-      filters: any[];
-      hotel: string;
-   };
-}
+import { REPORT_TYPE, ExplotacionOptions, ExplotacionResult } from './types';
+
 const explotacion = async (
    options: ExplotacionOptions
 ): Promise<ExplotacionResult & LibError> => {
@@ -31,7 +22,7 @@ const explotacion = async (
       {
          name: 'orden',
          type: sql.Int,
-         value: 1,
+         value: REPORT_TYPE[options.type],
       },
       {
          name: 'id_mone',
@@ -116,7 +107,7 @@ const explotacion = async (
    ];
    console.time('executeProcedure');
    const response = await executeProcedure(
-      config.DEV_CONNECTION_STRING,
+      config.db.DEV_CONNECTION_STRING,
       'dbo.DSS_Explotacion',
       params,
       'HG_SevenFront'

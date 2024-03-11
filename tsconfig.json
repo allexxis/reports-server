@@ -23,6 +23,9 @@
       "noPropertyAccessFromIndexSignature": false,
       "noImplicitAny": false,
       "baseUrl": ".",
+      "types": [
+         "bun-types" // add Bun global
+      ],
       "paths": {
          "@src/*": ["src/*"],
          "@config/*": ["src/config/*"],

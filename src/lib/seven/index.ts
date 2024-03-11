@@ -12,7 +12,7 @@ async function executeQuery(connectionString, query) {
       await pool.close();
 
       // Return the query result
-      return result.recordset;
+      return result;
    } catch (err: any) {
       throw new Error(`Error executing query: ${err.message}`);
    }
