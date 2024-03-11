@@ -38,7 +38,7 @@ const currencies = async (
       return {
          id: currency.id_mone,
          code: currency.cod_mone,
-         description: currency.desc_mone,
+         description: currency.desc_mone.trim(),
          rate: currency.tasa,
          comission: currency.comision,
          decimals: currency.decimales,

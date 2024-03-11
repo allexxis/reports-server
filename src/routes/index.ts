@@ -14,7 +14,7 @@ router.get('/health', (_req, res) => {
 });
 router.get('/test', async (_req, res) => {
    if (config.server.__PROD__) {
-      return res.status(404);
+      return res.status(404).send('Not found');
    }
    console.time('executeProcedure');
    const response = await executeProcedure(
