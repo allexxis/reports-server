@@ -32,12 +32,12 @@ const explotacion = async (
       {
          name: 'tasa',
          type: sql.Numeric,
-         value: null,
+         value: null, // Este campo se tiene que agregar automáticamente  utilizando el query currencies para obtener la tasa de cambio de la moneda seleccionada
       },
       {
          name: 'TipoInforme',
          type: sql.VarChar,
-         value: '',
+         value: '', // Este no se está utilzando entonces mandar el default
       },
       {
          name: 'Fil_id_agen',
@@ -102,7 +102,7 @@ const explotacion = async (
       {
          name: 'full_ingresos',
          type: sql.Bit,
-         value: null,
+         value: 1, // Esto equivale al valor "ver" en la pantalla de reportes de explotación
       },
    ];
    console.time('executeProcedure');

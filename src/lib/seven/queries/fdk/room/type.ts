@@ -1,22 +1,11 @@
 import { executeQuery } from '@src/lib/seven';
 import { LibError } from '@src/types';
-// {
-//    id_thab: 122,
-//    id_con0: 53, //que es esto
-//    tipo_hab: '10_STDCASN                                        ',
-//    desc_t_hab: 'STANDARD CASONA',
-//    max_adultos: 3,
-//    max_ninos: 0,
-//    eliminado: false,
-//    orden_visual: 10,
-//    pax_incluido: 2 // Qué es esto?
-//  }
+
 export interface RoomTypeOptions {
    connectionString: string;
 }
 export interface RoomType {
    id: number;
-   count: number;
    name: string;
    type: string;
    maxAdults: number;

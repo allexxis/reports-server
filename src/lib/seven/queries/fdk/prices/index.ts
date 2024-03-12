@@ -1,37 +1,17 @@
 import { executeQuery } from '@src/lib/seven';
 import { LibError } from '@src/types';
-//  {
-//   id_cont: 36,
-//   id_naci: 23,
-//   id_mone: 3,
-//   id_cuenta: null,
-//   id_agen: 18,
-//   id_dcto: null,
-//   id_merc: 27,
-//   id_temp: 82,
-//   desc_cont: 'COSTA RICA EXOTICA NATUTAL    ',
-//   tasa_fija: 1,
-//   frec_sabana: 0,
-//   observ: '',
-//   max_dias: 0,
-//   max_saldo: 0,
-//   contrato: 'FIT_CREXOTI                                       ',
-//   eliminado: false,
-//   dega_oblig: false,
-//   id_cardex: 136,
-//   TipoContrato: false,
-//   observ_int: null,
-//   id_mopa: 0
-// }
+
 export interface PriceOptions {
    connectionString: string;
 }
 export interface Price {
    id: number;
    name: string;
-   agencyId: string;
-   currencyId: string;
-   marketId: string;
+   agencyId: number;
+   currencyId: number; //Esto está relacionado con la tabla de SICLAMON
+   marketId: number;
+   discountId: number | null;
+   tempId: number | null;
    deleted: boolean;
 }
 export interface PriceResult {
@@ -60,6 +40,7 @@ const prices = async (
          agencyId: price.id_agen,
          currencyId: price.id_mone,
          marketId: price.id_merc,
+         discountId: price.id_dcto,
          deleted: price.eliminado,
       };
    });

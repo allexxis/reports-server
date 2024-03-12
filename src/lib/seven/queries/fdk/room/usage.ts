@@ -1,21 +1,13 @@
 import { executeQuery } from '@src/lib/seven';
 import { LibError } from '@src/types';
-// {
-//   id_uhab: 128,
-//   id_thab: 113,
-//   uso_hab: 'SUI_DBL  ', Qué es esto?
-//   desc_uso_hab: '05_SUITE 2 ADULTO',
-//   max_adultos: 2,
-//   max_ninos: 0,
-//   eliminado: false
-// },
+
 export interface RoomUsageOptions {
    connectionString: string;
 }
 export interface RoomUsage {
    id: number;
    idRoomType: number;
-   usage: string;
+   code: string;
    name: string;
    maxAdults: number;
    maxChildren: number;
@@ -44,6 +36,7 @@ const rooms = async (
       return {
          id: room.id_uhab,
          idRoomType: room.id_thab,
+         code: room.uso_hab?.trim() || '',
          name: room.desc_uso_hab?.trim() || '',
          maxAdults: room.max_adultos,
          maxChildren: room.max_ninos,

@@ -11,11 +11,9 @@ export interface Currency {
    rate: number;
    comission: number;
    decimals: number;
-   transformable: boolean;
    billable: boolean;
    deleted: boolean;
    refer: boolean;
-   date: string;
 }
 interface CurrencyResult {
    currencies?: Currency[];
@@ -34,6 +32,7 @@ const currencies = async (
    if (response['error']) {
       return { error: response['error'].message };
    }
+   console.log(response['recordset']);
    const currencies: Currency[] = response['recordset'].map((currency) => {
       return {
          id: currency.id_mone,
@@ -42,8 +41,6 @@ const currencies = async (
          rate: currency.tasa,
          comission: currency.comision,
          decimals: currency.decimales,
-         transformable: currency.convertible,
-         date: currency.fecha_ult,
          billable: currency.facturable,
          deleted: currency.eliminado,
          refer: currency.refer_mone,

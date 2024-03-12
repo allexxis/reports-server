@@ -1,4 +1,6 @@
-#Este es el procedimiento almacenado que se ejecuta en esta función
+# DSS Explotación
+
+Este módulo solo sirve para aquellos clientes que tienen activado el módulo de Front Desk porque existen clientes que solo tienen POS o tour operador.
 
 ```sql
 begin
