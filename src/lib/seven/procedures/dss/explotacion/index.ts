@@ -73,7 +73,6 @@ const explotacion = async (
    if (cached) {
       return cached;
    }
-   console.time('executeProcedure');
    const response = await executeProcedure(
       options.connectionString,
       'dbo.DSS_Explotacion',
@@ -152,7 +151,6 @@ const explotacion = async (
    set(rKey, {
       data: result,
    });
-   console.timeEnd('executeProcedure');
    return {
       data: result,
    };
