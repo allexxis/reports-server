@@ -3,6 +3,15 @@ export interface ExplotacionOptions {
    to: string;
    type: ReportTypes;
    currencyId: number;
+   connectionString: string;
+   filters?: {
+      agency?: number;
+      market?: number;
+      price?: number;
+      roomType?: number;
+      roomUsage?: number;
+      agencyType?: 0 | 1; //0 = Agencia, 1 = Directo
+   };
 }
 export interface ExplotacionResult {
    data?: {

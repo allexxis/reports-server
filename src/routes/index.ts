@@ -5,6 +5,7 @@ import config from '@src/config';
 import api from './api';
 
 const router = express.Router();
+
 router.use('/api', api);
 router.get('/health', (_req, res) => {
    res.json({

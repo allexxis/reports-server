@@ -1,6 +1,6 @@
 import { executeQuery } from '@lib/seven/index';
 import { LibError } from '@src/types';
-
+import { set, get } from '@lib/redis';
 export interface CurrencyOptions {
    connectionString: string;
 }
@@ -21,6 +21,11 @@ interface CurrencyResult {
 const currencies = async (
    options: CurrencyOptions
 ): Promise<CurrencyResult & LibError> => {
+   const rKey = '1:fdk:cur';
+   const cached = await get(rKey);
+   if (cached) {
+      return cached;
+   }
    const query = `USE HG_SevenFront; SELECT * FROM SICLAMON;`;
    const response = await executeQuery(options.connectionString, query).catch(
       (err) => {
@@ -46,6 +51,12 @@ const currencies = async (
          refer: currency.refer_mone,
       };
    });
+   set(
+      rKey,
+      JSON.stringify({
+         currencies: currencies,
+      })
+   );
    return {
       currencies: currencies,
    };

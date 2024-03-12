@@ -1,8 +1,15 @@
 import { IProcedureParams, executeProcedure } from '@lib/seven/index';
 import sql from 'mssql';
-import config from '@src/config';
+
 import { LibError } from '@src/types';
 import { REPORT_TYPE, ExplotacionOptions, ExplotacionResult } from './types';
+import addAgency from './filters/addAgency';
+import addMarket from './filters/addMarket';
+import addPrice from './filters/addPrice';
+import addRoomType from './filters/addRoomType';
+import addRoomUsage from './filters/addRoomUsage';
+import addAgencyType from './filters/addAgencyType';
+import addRate from './filters/addRate';
 
 const explotacion = async (
    options: ExplotacionOptions
@@ -18,7 +25,6 @@ const explotacion = async (
          type: sql.DateTime,
          value: options.to, //'2024-03-05 00:00:00.000',
       },
-
       {
          name: 'orden',
          type: sql.Int,
@@ -40,74 +46,21 @@ const explotacion = async (
          value: '', // Este no se está utilzando entonces mandar el default
       },
       {
-         name: 'Fil_id_agen',
-         type: sql.Bit,
-         value: null,
-      },
-      {
-         name: 'vFil_id_agen',
-         type: sql.Int,
-         value: 0,
-      },
-      {
-         name: 'Fil_id_merc',
-         type: sql.Bit,
-         value: null,
-      },
-      {
-         name: 'vFil_id_merc',
-         type: sql.Int,
-         value: 0,
-      },
-      {
-         name: 'Fil_id_cont',
-         type: sql.Bit,
-         value: null,
-      },
-      {
-         name: 'vFil_id_cont',
-         type: sql.Int,
-         value: 0,
-      },
-      {
-         name: 'Fil_id_thab',
-         type: sql.Bit,
-         value: null,
-      },
-      {
-         name: 'vFil_id_thab',
-         type: sql.Int,
-         value: 0,
-      },
-      {
-         name: 'Fil_id_uhab',
-         type: sql.Bit,
-         value: null,
-      },
-      {
-         name: 'vFil_id_uhab',
-         type: sql.Int,
-         value: 0,
-      },
-      {
-         name: 'Fil_tipo',
-         type: sql.Bit,
-         value: null,
-      },
-      {
-         name: 'vFil_tipo',
-         type: sql.Bit,
-         value: null,
-      },
-      {
          name: 'full_ingresos',
          type: sql.Bit,
          value: 1, // Esto equivale al valor "ver" en la pantalla de reportes de explotación
       },
    ];
+   addAgency(params, options.filters?.agency);
+   addMarket(params, options.filters?.market);
+   addPrice(params, options.filters?.price);
+   addRoomType(params, options.filters?.roomType);
+   addRoomUsage(params, options.filters?.roomUsage);
+   addAgencyType(params, options.filters?.agencyType);
+   addRate(params, options.currencyId, options.connectionString);
    console.time('executeProcedure');
    const response = await executeProcedure(
-      config.db.DEV_CONNECTION_STRING,
+      options.connectionString,
       'dbo.DSS_Explotacion',
       params,
       'HG_SevenFront'
