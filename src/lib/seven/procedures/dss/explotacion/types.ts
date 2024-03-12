@@ -13,6 +13,61 @@ export interface ExplotacionOptions {
       agencyType?: 0 | 1; //0 = Agencia, 1 = Directo
    };
 }
+
+export interface Segment {
+   contract: {
+      code: string;
+      name: string;
+   };
+   agency: string;
+   market: string;
+   room: {
+      type: {
+         code: string;
+         name: string;
+      };
+      usage: {
+         code: string;
+         name: string;
+      };
+   };
+   lodging: number;
+   ayb: number;
+   aybPercentage: number;
+   hospPercentage: number;
+   others: number;
+   othersFront: number;
+   otherPv: number;
+   otherPercentage: number;
+   nights: number;
+   roomNights: number;
+   nightsPercentage: number;
+   adultNightsPercentage: number;
+   adults: number;
+   children: number;
+   adultNights: number;
+   childrenNights: number;
+   dates: {
+      utc: string;
+      start: string;
+      end: string;
+   };
+   group: {
+      by: string;
+      value: string;
+   };
+   detail: {
+      code: string;
+      value: string;
+   };
+   capacity: number;
+   capacityFor: number;
+   seats: number;
+   seatsFor: number;
+   currency: string;
+   promoRate: number;
+   hideDetail: boolean;
+}
 export interface ExplotacionResult {
    data?: {
       results: any[];

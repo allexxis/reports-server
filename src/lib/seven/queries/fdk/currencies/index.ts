@@ -21,7 +21,7 @@ interface CurrencyResult {
 const currencies = async (
    options: CurrencyOptions
 ): Promise<CurrencyResult & LibError> => {
-   const rKey = '1:fdk:cur';
+   const rKey = '1::fdk:cur';
    const cached = await get(rKey);
    if (cached) {
       return cached;
