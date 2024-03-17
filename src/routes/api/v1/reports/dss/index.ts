@@ -1,31 +1,32 @@
 import config from '@src/config';
 import explotacion from '@src/lib/seven/procedures/dss/explotacion';
-import express from 'express';
 import { log } from '@utils/logger';
-const router = express.Router();
+import { Hono } from 'hono';
 
-router.get('/explotacion', async (req, res) => {
+const app = new Hono();
+
+app.get('/explotacion', async (req) => {
    try {
       const body = req.body;
       const response = await explotacion({
-         ...body,
+         ...(body as any),
          connectionString: config.db.DEV_CONNECTION_STRING,
       });
       if (response.error) {
-         return res.json({
+         return req.json({
             error: response.error,
          });
       }
-      res.json({
+      return req.json({
          data: response.data?.results[0],
          success: true,
       });
    } catch (error: any) {
       log(error);
-      res.json({
+      return req.json({
          error: error.message,
       });
    }
 });
 
-export default router;
+export default app;

@@ -1,10 +1,10 @@
-import express from 'express';
+import { Hono } from 'hono';
 import fdk from './fdk';
 import reports from './reports';
 
-const router = express.Router();
+const app = new Hono();
 
-router.use('/fdk', fdk);
-router.use('/reports', reports);
+app.route('/fdk', fdk);
+app.route('/reports', reports);
 
-export default router;
+export default app;

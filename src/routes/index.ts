@@ -1,21 +1,21 @@
 import packageJson from '@src/../package.json';
 import { executeProcedure } from '@lib/seven';
-import express from 'express';
 import config from '@src/config';
 import api from './api';
+import { Hono } from 'hono';
 
-const router = express.Router();
+const app = new Hono();
 
-router.use('/api', api);
-router.get('/health', (_req, res) => {
-   res.json({
+app.route('/api', api);
+app.get('/health', async (req) => {
+   return req.json({
       name: packageJson.name,
       version: packageJson.version,
    });
 });
-router.get('/test', async (_req, res) => {
+app.get('/test', async (req) => {
    if (config.server.__PROD__) {
-      return res.status(404).send('Not found');
+      return req.status(404);
    }
    console.time('executeProcedure');
    const response = await executeProcedure(
@@ -24,15 +24,13 @@ router.get('/test', async (_req, res) => {
       undefined,
       'HG_SevenFront'
    ).catch((err) => {
-      res.json({
-         error: err.message,
-      });
+      return { error: err };
    });
    console.timeEnd('executeProcedure');
-
-   res.json({
-      response,
+   return req.json({
+      data: response as any,
+      success: true,
    });
 });
 
-export default router;
+export default app;

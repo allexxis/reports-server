@@ -1,6 +1,7 @@
-import express from 'express';
+import { Hono } from 'hono';
 import dss from './dss';
 
-const router = express.Router();
-router.use('/dss', dss);
-export default router;
+const app = new Hono();
+
+app.route('/dss', dss);
+export default app;

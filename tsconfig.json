@@ -24,7 +24,8 @@
       "noImplicitAny": false,
       "baseUrl": ".",
       "types": [
-         "bun-types" // add Bun global
+         "bun-types", // add Bun global,
+         "@cloudflare/workers-types"
       ],
       "paths": {
          "@src/*": ["src/*"],

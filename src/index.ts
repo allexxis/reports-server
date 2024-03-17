@@ -1,10 +1,11 @@
-import express from 'express';
+import { Hono } from 'hono';
 import config from '@config/index';
-import routes from './routes';
+import root from '@src/routes/index';
+const app = new Hono();
 
-const app = express();
-app.use(express.json());
-app.use(routes);
-app.listen(config.server.PORT, () => {
-   console.log(`🦊 Express is running at localhost:${config.server.PORT}`);
-});
+app.notFound((c) => c.json({ message: 'Not Found', ok: false }, 404));
+
+app.route('/', root);
+
+console.log(`🚀Listening on http://localhost:${config.server.PORT}`);
+export default app;
