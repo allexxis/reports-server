@@ -1,7 +1,8 @@
 import { executeQuery } from '@src/lib/seven';
-import { LibError } from '@src/types';
-
+import { AppContext, LibError } from '@src/types';
+import { set, get } from '@src/lib/redis';
 export interface PriceOptions {
+   ctx: AppContext;
    connectionString: string;
 }
 export interface Price {
@@ -21,6 +22,11 @@ export interface PriceResult {
 const prices = async (
    options: PriceOptions
 ): Promise<PriceResult & LibError> => {
+   const rKey = `${options.ctx.user.id}::fdk:prices`;
+   const cached = await get(rKey);
+   if (cached) {
+      return cached;
+   }
    const query = `USE HG_SevenFront; SELECT * FROM HOTECONT ORDER BY contrato;`;
    const response = await executeQuery(options.connectionString, query).catch(
       (err) => {
@@ -42,6 +48,9 @@ const prices = async (
          discountId: price.id_dcto,
          deleted: price.eliminado,
       };
+   });
+   set(rKey, {
+      prices,
    });
    return {
       prices: prices,

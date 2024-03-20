@@ -1,7 +1,8 @@
 import { executeQuery } from '@lib/seven/index';
-import { LibError } from '@src/types';
-
+import { AppContext, LibError } from '@src/types';
+import { set, get } from '@lib/redis';
 export interface MarketsOptions {
+   ctx: AppContext;
    connectionString: string;
 }
 export interface Market {
@@ -15,6 +16,12 @@ interface MarketsResult {
 const markets = async (
    options: MarketsOptions
 ): Promise<MarketsResult & LibError> => {
+   const rKey = `${options.ctx.user.id}::fdk:market`;
+   const cached = await get(rKey);
+   if (cached) {
+      return cached;
+   }
+
    const query = `USE HG_SevenFront; SELECT * FROM HOTEMERC ORDER BY desc_merc;`;
    const response = await executeQuery(options.connectionString, query).catch(
       (err) => {
@@ -32,6 +39,9 @@ const markets = async (
          name: market.desc_merc.trim(),
          deleted: market.eliminado,
       };
+   });
+   set(rKey, {
+      markets,
    });
    return {
       markets,

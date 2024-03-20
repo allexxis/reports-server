@@ -1,7 +1,8 @@
 import { executeQuery } from '@src/lib/seven';
-import { LibError } from '@src/types';
-
+import { LibError, AppContext } from '@src/types';
+import { set, get } from '@src/lib/redis';
 export interface RoomUsageOptions {
+   ctx: AppContext;
    connectionString: string;
 }
 export interface RoomUsage {
@@ -20,6 +21,12 @@ export interface RoomUsageResult {
 const rooms = async (
    options: RoomUsageOptions
 ): Promise<RoomUsageResult & LibError> => {
+   const rKey = `${options.ctx.user.id}::fdk:roomusage`;
+   const cached = await get(rKey);
+   if (cached) {
+      return cached;
+   }
+
    const query = `USE HG_SevenFront; SELECT uh.* FROM HOTEUHAB uh INNER JOIN HOTETHAB th ON uh.id_thab = th.id_thab WHERE uh.eliminado = 0 AND th.eliminado = 0 ORDER BY uh.uso_hab;`;
    const response = await executeQuery(options.connectionString, query).catch(
       (err) => {
@@ -41,6 +48,9 @@ const rooms = async (
          maxChildren: room.max_ninos,
          deleted: room.eliminado,
       };
+   });
+   set(rKey, {
+      rooms,
    });
    return {
       rooms: rooms,

@@ -1,7 +1,9 @@
 import { executeQuery } from '@lib/seven/index';
-import { LibError } from '@src/types';
+import { get, set } from '@src/lib/redis';
+import { AppContext, LibError } from '@src/types';
 
 export interface AgencyOptions {
+   ctx: AppContext;
    connectionString: string;
 }
 export interface Agency {
@@ -17,6 +19,11 @@ export interface AgencyResult {
 const agencies = async (
    options: AgencyOptions
 ): Promise<AgencyResult & LibError> => {
+   const rKey = `${options.ctx.user.id}::fdk:agen`;
+   const cached = await get(rKey);
+   if (cached) {
+      return cached;
+   }
    const query = `USE HG_SevenFront; SELECT * FROM HOTEAGEN ORDER BY agencia;`;
    const response = await executeQuery(options.connectionString, query).catch(
       (err) => {
@@ -36,6 +43,9 @@ const agencies = async (
          deleted: agency.eliminado,
          shared: agency.comparte_cupos,
       };
+   });
+   set(rKey, {
+      agencies,
    });
    return {
       agencies,

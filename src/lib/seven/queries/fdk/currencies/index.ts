@@ -1,8 +1,9 @@
 import { executeQuery } from '@lib/seven/index';
-import { LibError } from '@src/types';
+import { AppContext, LibError } from '@src/types';
 import { set, get } from '@lib/redis';
 export interface CurrencyOptions {
    connectionString: string;
+   ctx: AppContext;
 }
 export interface Currency {
    id: number;
@@ -21,7 +22,7 @@ interface CurrencyResult {
 const currencies = async (
    options: CurrencyOptions
 ): Promise<CurrencyResult & LibError> => {
-   const rKey = '1::fdk:cur';
+   const rKey = `${options.ctx.user.id}::fdk:cur`;
    const cached = await get(rKey);
    if (cached) {
       return cached;

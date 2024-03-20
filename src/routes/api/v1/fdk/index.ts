@@ -10,7 +10,9 @@ import { Hono } from 'hono';
 const app = new Hono();
 
 app.get('/currencies', async (ctx) => {
+   const context = ctx.get('ctx');
    const response = await currencies({
+      ctx: context,
       connectionString: config.db.DEV_CONNECTION_STRING,
    });
 
@@ -39,7 +41,10 @@ app.get('/currencies', async (ctx) => {
    });
 });
 app.get('/markets', async (ctx) => {
+   const context = ctx.get('ctx');
+
    const response = await markets({
+      ctx: context,
       connectionString: config.db.DEV_CONNECTION_STRING,
    });
 
@@ -68,7 +73,9 @@ app.get('/markets', async (ctx) => {
    });
 });
 app.get('/agencies', async (ctx) => {
+   const context = ctx.get('ctx');
    const response = await agencies({
+      ctx: context,
       connectionString: config.db.DEV_CONNECTION_STRING,
    });
 
@@ -97,7 +104,9 @@ app.get('/agencies', async (ctx) => {
    });
 });
 app.get('/prices', async (ctx) => {
+   const context = ctx.get('ctx');
    const response = await prices({
+      ctx: context,
       connectionString: config.db.DEV_CONNECTION_STRING,
    });
 
@@ -126,7 +135,9 @@ app.get('/prices', async (ctx) => {
    });
 });
 app.get('/rooms/type', async (ctx) => {
+   const context = ctx.get('ctx');
    const response = await roomType({
+      ctx: context,
       connectionString: config.db.DEV_CONNECTION_STRING,
    });
    if (response.error) {
@@ -154,7 +165,9 @@ app.get('/rooms/type', async (ctx) => {
    });
 });
 app.get('/rooms/usage', async (ctx) => {
+   const context = ctx.get('ctx');
    const response = await roomUsage({
+      ctx: context,
       connectionString: config.db.DEV_CONNECTION_STRING,
    });
    if (response.error) {

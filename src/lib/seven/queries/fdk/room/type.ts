@@ -1,7 +1,8 @@
 import { executeQuery } from '@src/lib/seven';
-import { LibError } from '@src/types';
-
+import { AppContext, LibError } from '@src/types';
+import { set, get } from '@src/lib/redis';
 export interface RoomTypeOptions {
+   ctx: AppContext;
    connectionString: string;
 }
 export interface RoomType {
@@ -19,6 +20,11 @@ export interface RoomTypeResult {
 const rooms = async (
    options: RoomTypeOptions
 ): Promise<RoomTypeResult & LibError> => {
+   const rKey = `${options.ctx.user.id}::fdk:roomtype`;
+   const cached = await get(rKey);
+   if (cached) {
+      return cached;
+   }
    const query = `USE HG_SevenFront; SELECT * FROM HOTETHAB ORDER BY tipo_hab;`;
    const response = await executeQuery(options.connectionString, query).catch(
       (err) => {
@@ -40,6 +46,9 @@ const rooms = async (
          maxChildren: room.max_ninos,
          deleted: room.eliminado,
       };
+   });
+   set(rKey, {
+      rooms,
    });
    return {
       rooms: rooms,
