@@ -9,19 +9,19 @@ import { Hono } from 'hono';
 
 const app = new Hono();
 
-app.get('/currencies', async (req) => {
+app.get('/currencies', async (ctx) => {
    const response = await currencies({
       connectionString: config.db.DEV_CONNECTION_STRING,
    });
 
    if (response.error) {
-      return req.json({
+      return ctx.json({
          error: response.error,
       });
    }
-   const params = req.req.query();
+   const params = ctx.req.query();
    if (params.select === 'true') {
-      return req.json({
+      return ctx.json({
          ok: true,
          data: {
             select: response.currencies?.map((currency) => {
@@ -33,24 +33,24 @@ app.get('/currencies', async (req) => {
          },
       });
    }
-   return req.json({
+   return ctx.json({
       data: response,
       ok: true,
    });
 });
-app.get('/markets', async (req) => {
+app.get('/markets', async (ctx) => {
    const response = await markets({
       connectionString: config.db.DEV_CONNECTION_STRING,
    });
 
    if (response.error) {
-      return req.json({
+      return ctx.json({
          error: response.error,
       });
    }
-   const params = req.req.query();
+   const params = ctx.req.query();
    if (params.select === 'true') {
-      return req.json({
+      return ctx.json({
          ok: true,
          data: {
             select: response.markets?.map((market) => {
@@ -62,24 +62,24 @@ app.get('/markets', async (req) => {
          },
       });
    }
-   return req.json({
+   return ctx.json({
       data: response.markets,
       ok: true,
    });
 });
-app.get('/agencies', async (req) => {
+app.get('/agencies', async (ctx) => {
    const response = await agencies({
       connectionString: config.db.DEV_CONNECTION_STRING,
    });
 
    if (response.error) {
-      return req.json({
+      return ctx.json({
          error: response.error,
       });
    }
-   const params = req.req.query();
+   const params = ctx.req.query();
    if (params.select === 'true') {
-      return req.json({
+      return ctx.json({
          ok: true,
          data: {
             select: response.agencies?.map((agency) => {
@@ -91,24 +91,24 @@ app.get('/agencies', async (req) => {
          },
       });
    }
-   return req.json({
+   return ctx.json({
       data: response.agencies,
       ok: true,
    });
 });
-app.get('/prices', async (req) => {
+app.get('/prices', async (ctx) => {
    const response = await prices({
       connectionString: config.db.DEV_CONNECTION_STRING,
    });
 
    if (response.error) {
-      return req.json({
+      return ctx.json({
          error: response.error,
       });
    }
-   const params = req.req.query();
+   const params = ctx.req.query();
    if (params.select === 'true') {
-      return req.json({
+      return ctx.json({
          ok: true,
          data: {
             select: response.prices?.map((price) => {
@@ -120,23 +120,23 @@ app.get('/prices', async (req) => {
          },
       });
    }
-   return req.json({
+   return ctx.json({
       data: response.prices,
       ok: true,
    });
 });
-app.get('/rooms/type', async (req) => {
+app.get('/rooms/type', async (ctx) => {
    const response = await roomType({
       connectionString: config.db.DEV_CONNECTION_STRING,
    });
    if (response.error) {
-      return req.json({
+      return ctx.json({
          error: response.error,
       });
    }
-   const params = req.req.query();
+   const params = ctx.req.query();
    if (params.select === 'true') {
-      return req.json({
+      return ctx.json({
          ok: true,
          data: {
             select: response.rooms?.map((room) => {
@@ -148,23 +148,23 @@ app.get('/rooms/type', async (req) => {
          },
       });
    }
-   return req.json({
+   return ctx.json({
       data: response.rooms,
       ok: true,
    });
 });
-app.get('/rooms/usage', async (req) => {
+app.get('/rooms/usage', async (ctx) => {
    const response = await roomUsage({
       connectionString: config.db.DEV_CONNECTION_STRING,
    });
    if (response.error) {
-      return req.json({
+      return ctx.json({
          error: response.error,
       });
    }
-   const params = req.req.query();
+   const params = ctx.req.query();
    if (params.select === 'true') {
-      return req.json({
+      return ctx.json({
          ok: true,
          data: {
             select: response.rooms?.map((room) => {
@@ -176,7 +176,7 @@ app.get('/rooms/usage', async (req) => {
          },
       });
    }
-   return req.json({
+   return ctx.json({
       data: response.rooms,
       ok: true,
    });

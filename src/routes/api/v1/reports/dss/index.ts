@@ -54,7 +54,7 @@ const filters: UIFilter[] = [
       section: 'filters',
    },
    {
-      label: 'Precio',
+      label: 'Precio / Contrato',
       type: 'select',
       values: 'fdk.prices',
       query: true,
