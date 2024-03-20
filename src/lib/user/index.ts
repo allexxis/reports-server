@@ -1,8 +1,9 @@
-import { get, set } from '@lib/redis';
+import { get } from '@lib/redis';
 export interface User {
    id: number;
    name: string;
-   clerk_id: string;
+   clerkId: string;
+   dbString: string;
 }
 
 const findUserById = async (
@@ -11,7 +12,7 @@ const findUserById = async (
    if (!id) return undefined;
    let key = 'id';
    if (typeof id === 'string') {
-      key = 'clerk_id';
+      key = 'clerkId';
    }
    const clients = (await get('global:clients')) as User[];
    if (!clients) {

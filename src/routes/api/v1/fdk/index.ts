@@ -1,4 +1,3 @@
-import config from '@src/config';
 import agencies from '@src/lib/seven/queries/fdk/agencies';
 import currencies from '@src/lib/seven/queries/fdk/currencies';
 import markets from '@src/lib/seven/queries/fdk/markets';
@@ -13,7 +12,6 @@ app.get('/currencies', async (ctx) => {
    const context = ctx.get('ctx');
    const response = await currencies({
       ctx: context,
-      connectionString: config.db.DEV_CONNECTION_STRING,
    });
 
    if (response.error) {
@@ -45,7 +43,6 @@ app.get('/markets', async (ctx) => {
 
    const response = await markets({
       ctx: context,
-      connectionString: config.db.DEV_CONNECTION_STRING,
    });
 
    if (response.error) {
@@ -76,7 +73,6 @@ app.get('/agencies', async (ctx) => {
    const context = ctx.get('ctx');
    const response = await agencies({
       ctx: context,
-      connectionString: config.db.DEV_CONNECTION_STRING,
    });
 
    if (response.error) {
@@ -107,7 +103,6 @@ app.get('/prices', async (ctx) => {
    const context = ctx.get('ctx');
    const response = await prices({
       ctx: context,
-      connectionString: config.db.DEV_CONNECTION_STRING,
    });
 
    if (response.error) {
@@ -138,7 +133,6 @@ app.get('/rooms/type', async (ctx) => {
    const context = ctx.get('ctx');
    const response = await roomType({
       ctx: context,
-      connectionString: config.db.DEV_CONNECTION_STRING,
    });
    if (response.error) {
       return ctx.json({
@@ -168,7 +162,6 @@ app.get('/rooms/usage', async (ctx) => {
    const context = ctx.get('ctx');
    const response = await roomUsage({
       ctx: context,
-      connectionString: config.db.DEV_CONNECTION_STRING,
    });
    if (response.error) {
       return ctx.json({

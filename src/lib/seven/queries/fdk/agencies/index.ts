@@ -4,7 +4,7 @@ import { AppContext, LibError } from '@src/types';
 
 export interface AgencyOptions {
    ctx: AppContext;
-   connectionString: string;
+   connectionString?: string;
 }
 export interface Agency {
    id: number;
@@ -25,13 +25,14 @@ const agencies = async (
       return cached;
    }
    const query = `USE HG_SevenFront; SELECT * FROM HOTEAGEN ORDER BY agencia;`;
-   const response = await executeQuery(options.connectionString, query).catch(
-      (err) => {
-         return {
-            error: err,
-         };
-      }
-   );
+   const response = await executeQuery(
+      options.connectionString || options.ctx.user.dbString,
+      query
+   ).catch((err) => {
+      return {
+         error: err,
+      };
+   });
    if (response['error']) {
       return { error: response['error'].message };
    }

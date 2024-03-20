@@ -3,7 +3,7 @@ import { AppContext, LibError } from '@src/types';
 import { set, get } from '@src/lib/redis';
 export interface PriceOptions {
    ctx: AppContext;
-   connectionString: string;
+   connectionString?: string;
 }
 export interface Price {
    id: number;
@@ -28,13 +28,14 @@ const prices = async (
       return cached;
    }
    const query = `USE HG_SevenFront; SELECT * FROM HOTECONT ORDER BY contrato;`;
-   const response = await executeQuery(options.connectionString, query).catch(
-      (err) => {
-         return {
-            error: err,
-         };
-      }
-   );
+   const response = await executeQuery(
+      options.connectionString || options.ctx.user.dbString,
+      query
+   ).catch((err) => {
+      return {
+         error: err,
+      };
+   });
    if (response['error']) {
       return { error: response['error'].message };
    }

@@ -2,7 +2,7 @@ import { executeQuery } from '@lib/seven/index';
 import { AppContext, LibError } from '@src/types';
 import { set, get } from '@lib/redis';
 export interface CurrencyOptions {
-   connectionString: string;
+   connectionString?: string;
    ctx: AppContext;
 }
 export interface Currency {
@@ -28,13 +28,14 @@ const currencies = async (
       return cached;
    }
    const query = `USE HG_SevenFront; SELECT * FROM SICLAMON;`;
-   const response = await executeQuery(options.connectionString, query).catch(
-      (err) => {
-         return {
-            error: err,
-         };
-      }
-   );
+   const response = await executeQuery(
+      options.connectionString || options.ctx.user.dbString,
+      query
+   ).catch((err) => {
+      return {
+         error: err,
+      };
+   });
    if (response['error']) {
       return { error: response['error'].message };
    }

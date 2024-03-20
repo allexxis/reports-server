@@ -3,7 +3,7 @@ import { LibError, AppContext } from '@src/types';
 import { set, get } from '@src/lib/redis';
 export interface RoomUsageOptions {
    ctx: AppContext;
-   connectionString: string;
+   connectionString?: string;
 }
 export interface RoomUsage {
    id: number;
@@ -28,13 +28,14 @@ const rooms = async (
    }
 
    const query = `USE HG_SevenFront; SELECT uh.* FROM HOTEUHAB uh INNER JOIN HOTETHAB th ON uh.id_thab = th.id_thab WHERE uh.eliminado = 0 AND th.eliminado = 0 ORDER BY uh.uso_hab;`;
-   const response = await executeQuery(options.connectionString, query).catch(
-      (err) => {
-         return {
-            error: err,
-         };
-      }
-   );
+   const response = await executeQuery(
+      options.connectionString || options.ctx.user.dbString,
+      query
+   ).catch((err) => {
+      return {
+         error: err,
+      };
+   });
    if (response['error']) {
       return { error: response['error'].message };
    }
