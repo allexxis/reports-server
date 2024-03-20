@@ -37,7 +37,6 @@ const currencies = async (
    if (response['error']) {
       return { error: response['error'].message };
    }
-   console.log(response['recordset']);
    const currencies: Currency[] = response['recordset'].map((currency) => {
       return {
          id: currency.id_mone,
@@ -51,12 +50,9 @@ const currencies = async (
          refer: currency.refer_mone,
       };
    });
-   set(
-      rKey,
-      JSON.stringify({
-         currencies: currencies,
-      })
-   );
+   set(rKey, {
+      currencies: currencies,
+   });
    return {
       currencies: currencies,
    };

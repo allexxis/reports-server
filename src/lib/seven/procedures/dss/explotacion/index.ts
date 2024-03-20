@@ -23,12 +23,12 @@ const explotacion = async (
       {
          name: 'desde',
          type: sql.DateTime,
-         value: options.from + ' 00:00:00.000', //'2024-01-01 00:00:00.000',
+         value: options.dates.from + ' 00:00:00.000', //'2024-01-01 00:00:00.000',
       },
       {
          name: 'hasta',
          type: sql.DateTime,
-         value: options.to + ' 23:59:59.999', //'2024-03-05 00:00:00.000',
+         value: options.dates.to + ' 23:59:59.999', //'2024-03-05 00:00:00.000',
       },
       {
          name: 'orden',

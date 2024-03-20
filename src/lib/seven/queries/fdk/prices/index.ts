@@ -32,7 +32,6 @@ const prices = async (
    if (response['error']) {
       return { error: response['error'].message };
    }
-   console.log(response['recordset']);
    const prices: Price[] = response['recordset'].map((price) => {
       return {
          id: price.id_cont,

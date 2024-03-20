@@ -31,7 +31,6 @@ const rooms = async (
    if (response['error']) {
       return { error: response['error'].message };
    }
-   console.log(response['recordset']);
    const rooms: RoomUsage[] = response['recordset'].map((room) => {
       return {
          id: room.id_uhab,

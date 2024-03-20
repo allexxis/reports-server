@@ -29,7 +29,7 @@ app.get('/test', async (req) => {
    console.timeEnd('executeProcedure');
    return req.json({
       data: response as any,
-      success: true,
+      ok: true,
    });
 });
 

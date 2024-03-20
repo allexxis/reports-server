@@ -1,7 +1,6 @@
 export interface ExplotacionOptions {
-   from: string;
-   to: string;
-   type: ReportTypes;
+   dates: { from: string; to: string };
+   type: ReportType;
    currencyId: number;
    connectionString: string;
    filters?: {
@@ -75,26 +74,32 @@ export interface ExplotacionResult {
       hotel: string;
    };
 }
-export type ReportTypes =
-   | 'TOTAL_BY_AGENCY'
-   | 'TOTAL_BY_AGENCY_DETAILED_BY_PRICE'
-   | 'TOTAL_BY_AGENCY_DETAILED_BY_ROOM_TYPE'
-   | 'TOTAL_BY_AGENCY_DETAILED_BY_ROOM_USAGE'
-   | 'TOTAL_BY_MARKET'
-   | 'TOTAL_BY_MARKET_DETAILED_BY_AGENCY'
-   | 'TOTAL_BY_MARKET_DETAILED_BY_PRICE'
-   | 'TOTAL_BY_MARKET_DETAILED_BY_ROOM_TYPE'
-   | 'TOTAL_BY_MARKET_DETAILED_BY_ROOM_USAGE'
-   | 'TOTAL_BY_PRICE'
-   | 'TOTAL_BY_PRICE_DETAILED_BY_ROOM_TYPE'
-   | 'TOTAL_BY_PRICE_DETAILED_BY_ROOM_USAGE'
-   | 'TOTAL_BY_ROOM_TYPE'
-   | 'TOTAL_BY_ROOM_TYPE_DETAILED_BY_MARKET_DETAILED_BY_AGENCY'
-   | 'TOTAL_BY_ROOM_TYPE_DETAILED_BY_PRICE'
-   | 'TOTAL_BY_ROOM_TYPE_DETAILED_BY_MARKET'
-   | 'TOTAL_BY_ROOM_TYPE_DETAILED_BY_ROOM_USAGE';
+export const ReportTypes = [
+   'TOTAL_BY_AGENCY',
+   'TOTAL_BY_AGENCY_DETAILED_BY_PRICE',
+   'TOTAL_BY_AGENCY_DETAILED_BY_ROOM_TYPE',
+   'TOTAL_BY_AGENCY_DETAILED_BY_ROOM_USAGE',
+   'TOTAL_BY_MARKET',
+   'TOTAL_BY_MARKET_DETAILED_BY_AGENCY',
+   'TOTAL_BY_MARKET_DETAILED_BY_PRICE',
+   'TOTAL_BY_MARKET_DETAILED_BY_ROOM_TYPE',
+   'TOTAL_BY_MARKET_DETAILED_BY_ROOM_USAGE',
+   'TOTAL_BY_PRICE',
+   'TOTAL_BY_PRICE_DETAILED_BY_ROOM_TYPE',
+   'TOTAL_BY_PRICE_DETAILED_BY_ROOM_USAGE',
+   'TOTAL_BY_ROOM_TYPE',
+   'TOTAL_BY_ROOM_TYPE_DETAILED_BY_MARKET_DETAILED_BY_AGENCY',
+   'TOTAL_BY_ROOM_TYPE_DETAILED_BY_PRICE',
+   'TOTAL_BY_ROOM_TYPE_DETAILED_BY_MARKET',
+   'TOTAL_BY_ROOM_TYPE_DETAILED_BY_ROOM_USAGE',
+] as const;
+export type ReportType = (typeof ReportTypes)[number];
+
 type ReportTypesMap = {
-   [key in ReportTypes]: number;
+   [key in ReportType as string]: number;
+};
+type ReportTypesSelect = {
+   [key in ReportType as string]: string;
 };
 export const REPORT_TYPE: ReportTypesMap = {
    TOTAL_BY_AGENCY: 1,
@@ -114,4 +119,34 @@ export const REPORT_TYPE: ReportTypesMap = {
    TOTAL_BY_ROOM_TYPE_DETAILED_BY_PRICE: 15,
    TOTAL_BY_ROOM_TYPE_DETAILED_BY_MARKET: 16,
    TOTAL_BY_ROOM_TYPE_DETAILED_BY_ROOM_USAGE: 17,
+};
+
+export const REPORT_TYPE_SELECT: ReportTypesSelect = {
+   TOTAL_BY_AGENCY: 'Total por agencia',
+   TOTAL_BY_AGENCY_DETAILED_BY_PRICE: 'Total por agencia por precio',
+   TOTAL_BY_AGENCY_DETAILED_BY_ROOM_TYPE:
+      'Total por agencia por tipo de habitación',
+   TOTAL_BY_AGENCY_DETAILED_BY_ROOM_USAGE:
+      'Total por agencia por uso de habitación',
+   TOTAL_BY_MARKET: 'Total por mercado',
+   TOTAL_BY_MARKET_DETAILED_BY_AGENCY: 'Total por mercado por agencia',
+   TOTAL_BY_MARKET_DETAILED_BY_PRICE: 'Total por mercado por precio',
+   TOTAL_BY_MARKET_DETAILED_BY_ROOM_TYPE:
+      'Total por mercado por tipo de habitación',
+   TOTAL_BY_MARKET_DETAILED_BY_ROOM_USAGE:
+      'Total por mercado por uso de habitación',
+   TOTAL_BY_PRICE: 'Total por precio',
+   TOTAL_BY_PRICE_DETAILED_BY_ROOM_TYPE:
+      'Total por precio por tipo de habitación',
+   TOTAL_BY_PRICE_DETAILED_BY_ROOM_USAGE:
+      'Total por precio por uso de habitación',
+   TOTAL_BY_ROOM_TYPE: 'Total por tipo de habitación',
+   TOTAL_BY_ROOM_TYPE_DETAILED_BY_MARKET_DETAILED_BY_AGENCY:
+      'Total por tipo de habitación por mercado por agencia',
+   TOTAL_BY_ROOM_TYPE_DETAILED_BY_PRICE:
+      'Total por tipo de habitación por precio',
+   TOTAL_BY_ROOM_TYPE_DETAILED_BY_MARKET:
+      'Total por tipo de habitación por mercado',
+   TOTAL_BY_ROOM_TYPE_DETAILED_BY_ROOM_USAGE:
+      'Total por tipo de habitación por uso de habitación',
 };
