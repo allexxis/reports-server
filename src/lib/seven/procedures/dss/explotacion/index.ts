@@ -1,21 +1,15 @@
-import { IProcedureParams, executeProcedure } from '@lib/seven/index';
-import sql from 'mssql';
-import { set, get } from '@lib/redis';
+import { get, set } from '@lib/redis';
+import { executeProcedure } from '@lib/seven/index';
 import { LibError } from '@src/types';
-import {
-   REPORT_TYPE,
-   ExplotacionOptions,
-   ExplotacionResult,
-   Segment,
-} from './types';
 import addAgency from './filters/addAgency';
+import addAgencyType from './filters/addAgencyType';
 import addMarket from './filters/addMarket';
 import addPrice from './filters/addPrice';
+import addRate from './filters/addRate';
 import addRoomType from './filters/addRoomType';
 import addRoomUsage from './filters/addRoomUsage';
-import addAgencyType from './filters/addAgencyType';
-import addRate from './filters/addRate';
 import createBaseFilters from './filters/createBaseFilters';
+import { ExplotacionOptions, ExplotacionResult, Segment } from './types';
 
 const explotacion = async (
    options: ExplotacionOptions
