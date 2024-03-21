@@ -72,7 +72,7 @@ export interface Segment {
 }
 export interface ExplotacionResult {
    data?: {
-      results: any[];
+      results: Segment[];
       filters: any[];
       hotel: string;
    };

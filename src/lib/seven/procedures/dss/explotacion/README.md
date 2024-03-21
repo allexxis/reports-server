@@ -48,3 +48,50 @@ begin
 
 end
 ```
+
+Este es el objeto que devuelve un row en el procedimiento, no todos son strings este objeto es para explicar qué representa cada campo
+
+```javascript
+{
+    contrato: '',
+    desc_cont: '',
+    agencia: '',
+    desc_merc: '',
+    uso_hab: '',
+    desc_uso_hab: '',
+    tipo_hab: '',
+    desc_t_hab:  '',
+    hospedaje: '',
+    ayb:  '',
+    otros: '',
+    noches: '',
+    hab_noches:  '',
+    adultos:  '',
+    ninos:  '',
+    ad_noche:  '',
+    ni_noche: '',
+    fecha: '',
+    Agrupador:  '',
+    AgrupadorVal:  '',
+    DEtalle:  '',
+    DetalleVal:   '',
+    FecIni:  '',
+    FecFin:  '',
+    capacidad:  '',
+    capacidad_for:  '',
+    plazas:  '',
+    plazas_for:  '',
+    otros_front: '',
+    otros_pv: '',
+    Moneda: '',
+    TarifaProm:  '',
+    TipoInforme: '',
+    OcultarDetalle: '',
+    hosp_porc:  '',
+    ayb_porc:  '',
+    otros_porc:  '',
+    noches_porc:  '',
+    ad_noches_porc:  '',
+  },
+
+```

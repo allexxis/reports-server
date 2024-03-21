@@ -46,6 +46,7 @@ const explotacion = async (
       console.log(response['error']);
       return { error: response['error'].message };
    }
+
    const results: Segment[] = response['recordsets'][0].map((r) => {
       return {
          contract: {

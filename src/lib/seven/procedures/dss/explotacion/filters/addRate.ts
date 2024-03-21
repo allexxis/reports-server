@@ -11,11 +11,12 @@ const addRate = async (
 ) => {
    const currencies = await currenciesQuery({ connectionString, ctx: ctx });
    const currency = currencies.currencies?.find((c) => c.id === rate);
+   console.log('currency', currency);
    if (currency) {
       params.push({
          name: 'tasa',
          type: sql.Int,
-         value: currency.id,
+         value: currency.rate,
       });
    }
 };

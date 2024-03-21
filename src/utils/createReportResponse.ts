@@ -33,13 +33,18 @@ const createReportResponse = <T = any>(
       label: translations[key] || key,
       key,
    }));
-
+   console.log('largo', tableHeader.length);
+   console.log('tableHeader', tableHeader);
    const table =
       array.map((row) => {
          return Object.keys(row).map((key) => {
-            return row[key] || '';
+            if (row[key] === null || row[key] === undefined) {
+               return '';
+            }
+            return row[key];
          });
       }) || [];
+
    return jpack.pack({
       tableHeader,
       table,

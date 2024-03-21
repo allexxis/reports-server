@@ -13,7 +13,7 @@ app.get('/currencies', async (ctx) => {
    const response = await currencies({
       ctx: context,
    });
-
+   console.log('response', response);
    if (response.error) {
       return ctx.json({
          error: response.error,
