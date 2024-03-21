@@ -4,8 +4,52 @@ import { REPORT_TYPE_SELECT } from '@src/lib/seven/procedures/dss/explotacion/ty
 import { UIFilter } from '@src/types';
 import { log } from '@utils/logger';
 import { Hono } from 'hono';
+import jpack from 'jsonpack';
+import flattenObject from '@src/utils/flatObject';
+import createReportResponse from '@src/utils/createReportResponse';
 
 const app = new Hono();
+const translations = {
+   contract: 'Contrato',
+   agency: 'Agencia',
+   market: 'Mercado',
+   lodging: 'Alojamiento',
+   ayb: 'AYB',
+   aybPercentage: 'AYB %',
+   hospPercentage: 'Hosp %',
+   others: 'Otros',
+   othersFront: 'Otros Front',
+   otherPv: 'Otros PV',
+   otherPercentage: 'Otros %',
+   nights: 'Noches',
+   roomNights: 'Noches Hab',
+   nightsPercentage: 'Noches %',
+   adults: 'Adultos',
+   adultNights: 'Noches Adultos',
+   adultsNightsPercentage: 'Noches Adultos %',
+   children: 'Niños',
+   childrenNights: 'Noches Niños',
+   dates: 'Fechas',
+   'dates.utc': 'Fechas UTC',
+   'dates.start': 'Fechas Inicio',
+   'dates.end': 'Fechas Fin',
+   'group.by': 'Agrupador',
+   'group.value': 'Agrupador Valor',
+   'room.type.code': 'Código de habitación',
+   'room.type.name': 'Tipo de habitación',
+   'room.usage.code': 'Código de habitación',
+   'room.usage.name': 'Uso de habitación',
+   'contract.code': 'Código de contrato',
+   'contract.name': 'Nombre de contrato',
+   group: 'Grupo',
+   detail: 'Detalle',
+   capacity: 'Capacidad',
+   capacityFor: 'Capacidad para',
+   seats: 'Asientos',
+   seatsFor: 'Asientos para',
+   promoRate: 'Tarifa Promo',
+   hideDetail: 'Ocultar Detalle',
+};
 const filters: UIFilter[] = [
    {
       label: 'Tipo de reporte',
@@ -88,29 +132,40 @@ const filters: UIFilter[] = [
       section: 'filters',
    },
 ];
-app.get('/explotacion', async (req) => {
-   const params = req.req.query();
+app.post('/explotacion', async (c) => {
+   const startTime = Date.now();
+   const params = c.req.query();
    if (params.filters === 'true') {
-      return req.json({ ok: true, data: { filters } });
+      console.log({ ok: true, data: { filters } });
+      return c.json({ ok: true, data: { filters } });
    }
    try {
-      const body = req['body'] as any;
+      const body = await c.req.json();
+      const context = c.get('ctx');
+
       const response = await explotacion({
-         ...(body as any),
+         ...body,
+         ctx: context,
          connectionString: config.db.DEV_CONNECTION_STRING,
       });
       if (response.error) {
-         return req.json({
+         return c.json({
             error: response.error,
          });
       }
-      return req.json({
-         data: response.data?.results[0],
+      const result = createReportResponse(
+         response.data?.results,
+         translations,
+         { hotel: response.data?.hotel }
+      );
+
+      return c.json({
+         data: result,
          ok: true,
       });
    } catch (error: any) {
       log(error);
-      return req.json({
+      return c.json({
          error: error.message,
       });
    }

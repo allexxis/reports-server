@@ -1,8 +1,11 @@
+import { AppContext } from '@src/types';
+
 export interface ExplotacionOptions {
+   ctx: AppContext;
    dates: { from: string; to: string };
    type: ReportType;
    currencyId: number;
-   connectionString: string;
+   connectionString?: string;
    filters?: {
       agency?: number;
       market?: number;

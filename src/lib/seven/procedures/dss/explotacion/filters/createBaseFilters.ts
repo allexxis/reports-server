@@ -24,11 +24,6 @@ const createBaseFilters = (options: ExplotacionOptions): IProcedureParams[] => {
          value: options.currencyId,
       },
       {
-         name: 'tasa',
-         type: sql.Numeric,
-         value: null, // Este campo se tiene que agregar automáticamente  utilizando el query currencies para obtener la tasa de cambio de la moneda seleccionada
-      },
-      {
          name: 'TipoInforme',
          type: sql.VarChar,
          value: '', // Este no se está utilzando entonces mandar el default

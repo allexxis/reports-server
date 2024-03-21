@@ -21,19 +21,19 @@ const explotacion = async (
    addRoomType(params, options.filters?.roomType);
    addRoomUsage(params, options.filters?.roomUsage);
    addAgencyType(params, options.filters?.agencyType);
-   addRate(params, options.currencyId, options.connectionString);
+   addRate(params, options.currencyId, options.ctx, options.connectionString);
+   const userId = options.ctx.user.id;
    const rKey =
-      '1::' +
+      `${userId}::` +
       params.reduce((acc, curr) => {
          return acc + curr.name + ':' + curr.value;
       }, '');
-
    const cached = await get(rKey);
    if (cached) {
       return cached;
    }
    const response = await executeProcedure(
-      options.connectionString,
+      options.connectionString || options.ctx.user.dbString,
       'dbo.DSS_Explotacion',
       params,
       'HG_SevenFront'
