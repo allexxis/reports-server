@@ -3,7 +3,7 @@ import { LibError, AppContext } from '@src/types';
 import { set, get } from '@src/lib/redis';
 export interface RoomUsageOptions {
    ctx: AppContext;
-   connectionString?: string;
+   dbConfig?: string;
 }
 export interface RoomUsage {
    id: number;
@@ -29,7 +29,7 @@ const rooms = async (
 
    const query = `USE HG_SevenFront; SELECT uh.* FROM HOTEUHAB uh INNER JOIN HOTETHAB th ON uh.id_thab = th.id_thab WHERE uh.eliminado = 0 AND th.eliminado = 0 ORDER BY uh.uso_hab;`;
    const response = await executeQuery(
-      options.connectionString || options.ctx.user.dbString,
+      options.dbConfig || options.ctx.user.dbConfig,
       query
    ).catch((err) => {
       return {

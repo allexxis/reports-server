@@ -19,7 +19,7 @@ app.post('/explotacion', async (c) => {
       const response = await explotacion({
          ...body,
          ctx: context,
-         connectionString: config.db.DEV_CONNECTION_STRING,
+         dbConfig: config.db.DEV_CONNECTION_STRING,
       });
       if (response.error) {
          return c.json({

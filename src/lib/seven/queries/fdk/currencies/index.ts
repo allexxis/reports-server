@@ -2,7 +2,7 @@ import { executeQuery } from '@lib/seven/index';
 import { AppContext, LibError } from '@src/types';
 import { set, get } from '@lib/redis';
 export interface CurrencyOptions {
-   connectionString?: string;
+   dbConfig?: any;
    ctx: AppContext;
 }
 export interface Currency {
@@ -29,7 +29,7 @@ const currencies = async (
    }
    const query = `USE HG_SevenFront; SELECT * FROM SICLAMON;`;
    const response = await executeQuery(
-      options.connectionString || options.ctx.user.dbString,
+      options.dbConfig || options.ctx.user.dbConfig,
       query
    ).catch((err) => {
       return {

@@ -4,7 +4,7 @@ import { AppContext, LibError } from '@src/types';
 
 export interface AgencyOptions {
    ctx: AppContext;
-   connectionString?: string;
+   dbConfig?: string;
 }
 export interface Agency {
    id: number;
@@ -26,7 +26,7 @@ const agencies = async (
    }
    const query = `USE HG_SevenFront; SELECT * FROM HOTEAGEN ORDER BY agencia;`;
    const response = await executeQuery(
-      options.connectionString || options.ctx.user.dbString,
+      options.dbConfig || options.ctx.user.dbConfig,
       query
    ).catch((err) => {
       return {

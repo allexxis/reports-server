@@ -3,7 +3,7 @@ import { AppContext, LibError } from '@src/types';
 import { set, get } from '@src/lib/redis';
 export interface RoomTypeOptions {
    ctx: AppContext;
-   connectionString?: string;
+   dbConfig?: string;
 }
 export interface RoomType {
    id: number;
@@ -27,7 +27,7 @@ const rooms = async (
    }
    const query = `USE HG_SevenFront; SELECT * FROM HOTETHAB ORDER BY tipo_hab;`;
    const response = await executeQuery(
-      options.connectionString || options.ctx.user.dbString,
+      options.dbConfig || options.ctx.user.dbConfig,
       query
    ).catch((err) => {
       return {

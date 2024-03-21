@@ -5,7 +5,7 @@ export interface ExplotacionOptions {
    dates: { from: string; to: string };
    type: ReportType;
    currencyId: number;
-   connectionString?: string;
+   dbConfig?: string;
    filters?: {
       agency?: number;
       market?: number;

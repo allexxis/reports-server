@@ -3,7 +3,7 @@ import { AppContext, LibError } from '@src/types';
 import { set, get } from '@lib/redis';
 export interface MarketsOptions {
    ctx: AppContext;
-   connectionString?: string;
+   dbConfig?: string;
 }
 export interface Market {
    id: number;
@@ -24,7 +24,7 @@ const markets = async (
 
    const query = `USE HG_SevenFront; SELECT * FROM HOTEMERC ORDER BY desc_merc;`;
    const response = await executeQuery(
-      options.connectionString || options.ctx.user.dbString,
+      options.dbConfig || options.ctx.user.dbConfig,
       query
    ).catch((err) => {
       return {

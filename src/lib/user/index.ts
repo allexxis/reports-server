@@ -3,7 +3,7 @@ export interface User {
    id: number;
    name: string;
    clerkId: string;
-   dbString: string;
+   dbConfig: any;
 }
 
 const findUserById = async (

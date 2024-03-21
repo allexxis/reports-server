@@ -1,9 +1,17 @@
 import sql from 'mssql';
 
-async function executeQuery(connectionString, query) {
+async function executeQuery(dbConfig: any, query) {
    try {
       // Create a new pool with the provided connection string
-      const pool = await sql.connect(connectionString);
+      const pool = await sql.connect({
+         ...dbConfig,
+         connectionTimeout: 60000, // 60 seconds
+         requestTimeout: 60000,
+         pool: {
+            idleTimeoutMillis: 60000,
+            acquireTimeoutMillis: 60000,
+         },
+      });
 
       // Execute the query
       const result = await pool.request().query(query);
@@ -23,15 +31,24 @@ export interface IProcedureParams {
    value: any;
 }
 async function executeProcedure(
-   connectionString: string,
+   dbConfig: any,
    procedure: string,
    params?: IProcedureParams[],
    database?: string
 ) {
    try {
       // Create a new pool with the provided connection string
-      const pool = await sql.connect(connectionString);
+      const pool = await sql.connect({
+         ...dbConfig,
+         connectionTimeout: 60000, // 60 seconds
+         requestTimeout: 60000,
+         pool: {
+            idleTimeoutMillis: 60000,
+            acquireTimeoutMillis: 60000,
+         },
+      });
       const request = pool.request();
+
       if (database) {
          await pool.query(`use ${database}; `);
       }
@@ -45,6 +62,7 @@ async function executeProcedure(
 
       // Execute the query
       const result = await request.execute(procedure);
+
       // Close the connection pool
       await pool.close();
 

@@ -7,11 +7,10 @@ const addRate = async (
    params: IProcedureParams[],
    rate: number,
    ctx: AppContext,
-   connectionString?: string
+   dbConfig?: any
 ) => {
-   const currencies = await currenciesQuery({ connectionString, ctx: ctx });
+   const currencies = await currenciesQuery({ dbConfig, ctx: ctx });
    const currency = currencies.currencies?.find((c) => c.id === rate);
-   console.log('currency', currency);
    if (currency) {
       params.push({
          name: 'tasa',

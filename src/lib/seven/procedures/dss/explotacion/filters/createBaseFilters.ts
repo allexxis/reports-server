@@ -11,7 +11,7 @@ const createBaseFilters = (options: ExplotacionOptions): IProcedureParams[] => {
       {
          name: 'hasta',
          type: sql.DateTime,
-         value: options.dates.to + ' 23:59:59.999', //'2024-03-05 00:00:00.000',
+         value: options.dates.to + ' 00:00:00.000', //'2024-03-05 00:00:00.000',
       },
       {
          name: 'orden',

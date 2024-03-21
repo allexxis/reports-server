@@ -3,7 +3,7 @@ import { AppContext, LibError } from '@src/types';
 import { set, get } from '@src/lib/redis';
 export interface PriceOptions {
    ctx: AppContext;
-   connectionString?: string;
+   dbConfig?: string;
 }
 export interface Price {
    id: number;
@@ -29,7 +29,7 @@ const prices = async (
    }
    const query = `USE HG_SevenFront; SELECT * FROM HOTECONT ORDER BY contrato;`;
    const response = await executeQuery(
-      options.connectionString || options.ctx.user.dbString,
+      options.dbConfig || options.ctx.user.dbConfig,
       query
    ).catch((err) => {
       return {

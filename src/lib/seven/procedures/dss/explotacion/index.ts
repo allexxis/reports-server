@@ -21,7 +21,7 @@ const explotacion = async (
    addRoomType(params, options.filters?.roomType);
    addRoomUsage(params, options.filters?.roomUsage);
    addAgencyType(params, options.filters?.agencyType);
-   addRate(params, options.currencyId, options.ctx, options.connectionString);
+   addRate(params, options.currencyId, options.ctx, options.dbConfig);
    const userId = options.ctx.user.id;
    const rKey =
       `${userId}::` +
@@ -33,7 +33,7 @@ const explotacion = async (
       return cached;
    }
    const response = await executeProcedure(
-      options.connectionString || options.ctx.user.dbString,
+      options.dbConfig || options.ctx.user.dbConfig,
       'dbo.DSS_Explotacion',
       params,
       'HG_SevenFront'
